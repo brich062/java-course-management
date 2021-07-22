@@ -52,4 +52,28 @@ public class MainController {
     	   return "redirect:/";
        }
 	}
+	@RequestMapping("/home")
+	public String placeUser(HttpSession session, User user) {
+		Long userId = (Long) session.getAttribute("userId");
+		User u = uService.findUserById(userId);
+		String role = u.getRole();
+		String student = "student";
+		String teacher = "teacher";
+		String admin = "admin";
+		System.out.println(u.getRole());
+		System.out.println(role);
+		if(u.getRole().equals(student)) {
+			return "redirect:/student/home";
+		}
+		if(u.getRole().equals(teacher)) {
+			return "redirect:/teacher/home";
+		}
+		if(u.getRole().equals(admin)) {
+			return "redirect:/admin/home";
+		} else {
+			return "redirect:/";
+		}	
+	}
+	
+	
 }
