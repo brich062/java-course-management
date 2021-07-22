@@ -40,10 +40,12 @@ public class User {
     @Size(min=5, message="Password confirmation must contain at least 5 characters")
 	private String passwordConfirmation;
 	
-    @NotEmpty(message="Role must be specified")
+//    @NotEmpty(message="Role must be specified")
 	private String role;
 
 	private Boolean darkMode;
+	
+	private String profilePic;
 
     @Column(updatable=false)
 	private Date createdAt;
@@ -121,6 +123,12 @@ public class User {
 	public void setDarkMode(Boolean darkMode) {
 		this.darkMode = darkMode;
 	}
+	public String getProfilePic() {
+		return profilePic;
+	}
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
 	public List<Course> getTeaches() {
 		return teaches;
 	}
@@ -135,4 +143,5 @@ public class User {
 	}
 
 }
+
 
