@@ -70,4 +70,7 @@ public class UserService {
 		user.setDarkMode(true);
 		return this.userRepository.save(user);
 	}
+	public void getRole(User user) {
+		user.getRole();
+	}
 }
