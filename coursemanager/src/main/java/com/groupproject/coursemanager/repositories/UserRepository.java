@@ -10,5 +10,6 @@ import com.groupproject.coursemanager.models.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
     User findByEmail(String email);
-    List<User>findAll();
+    List<User> findAll();
+    List<User> findByRole(String role);
 }
