@@ -33,6 +33,7 @@ public class TeacherController {
 		Long userId = (Long)session.getAttribute("userId");
 		User u = uServ.findUserById(userId);
 		//create the course object to pull grades for roster purposes
+		//Will need to add Course Sevice
 		Course viewCourse = this.cServ.getById("id");
 		viewModel.addAttribute("roster", viewCourse.getGrades());
 		return "courseView.jsp";
@@ -49,4 +50,15 @@ public class TeacherController {
 	}
 	
 	//post mapping for posting a grade (based on modelAttribute?)
+	@PostMapping("/teacher/addGrade/{cId}/{sId}")
+	public String addGrade(@Valid @ModelAttribute("grade") Grade sGrade, @PathVariable("cId") Long cId,
+			@PathVariable("sId") Long sId, HttpSession session) {
+		Long userId = (Long)session.getAttribute("userId");
+		User u =  uServ.findUserById(userId);
+		Course viewCourse = this.cServ.getById(cId);
+		User student = this.uServ.findUserById(sId);
+		//function will be added via CourseSevice
+		this.gServ.addGrade(viewCourse, student);
+		return "redirect://teacher/course/" + viewCourse;
+	}
 }
