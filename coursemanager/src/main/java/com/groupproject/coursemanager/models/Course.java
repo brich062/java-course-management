@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity()
@@ -36,12 +37,14 @@ public class Course {
     @NotEmpty(message="Semester must be specified")
     private String semester;
 
-    @Min(value=1, message="Credits must more then or equal to 1")
-    @Max(value=3, message="Credits must less than or equal to 3")
+    @NotNull(message="Please specify course credits")
+    @Min(value=1, message="Credits must be greater than or equal to 1")
+    @Max(value=3, message="Credits must be less than or equal to 3")
     private Integer credits;
 
-    @Min(value=10, message="Capacity must more then or equal to 10")
-    @Max(value=50, message="Capacity must less then or equal to 50")
+    @NotNull(message="Please specify course capacity")
+    @Min(value=10, message="Capacity must be greater than or equal to 10")
+    @Max(value=50, message="Capacity must be less than or equal to 50")
     private Integer capacity;
 
     @Column(updatable=false)

@@ -73,5 +73,4 @@ public class UserService {
 	public void getRole(User user) {
 		user.getRole();
 	}
-	
 }
