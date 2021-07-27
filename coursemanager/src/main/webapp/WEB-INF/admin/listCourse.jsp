@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>    
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix = "t" tagdir = "/WEB-INF/tags" %>    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,7 @@
 	<script src="/js/script.js"></script>
 </head>
 <body>
+<t:wrapper>
 	<div class="listToolbar">
 		<div>
 			Courses
@@ -67,6 +69,6 @@
 			</tbody>
 		</table>
 	</div>
-
+</t:wrapper>
 </body>
 </html>

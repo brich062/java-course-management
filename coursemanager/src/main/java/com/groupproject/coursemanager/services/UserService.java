@@ -39,6 +39,9 @@ public class UserService {
     	    return null;
     	}
     }
+    public List<User> findByRole(String role) {
+    	return userRepository.findByRole(role);
+    }
     
     // authenticate user
     public boolean authenticateUser(String email, String password) {
@@ -73,4 +76,5 @@ public class UserService {
 	public void getRole(User user) {
 		user.getRole();
 	}
+	
 }

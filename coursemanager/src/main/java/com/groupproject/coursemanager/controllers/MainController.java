@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,13 +54,14 @@ public class MainController {
        }
 	}
 	@RequestMapping("/home")
-	public String placeUser(HttpSession session, User user) {
+	public String placeUser(HttpSession session, User user, Model model) {
 		Long userId = (Long) session.getAttribute("userId");
 		User u = uService.findUserById(userId);
 		String role = u.getRole();
 		String student = "student";
 		String teacher = "teacher";
 		String admin = "admin";
+    	model.addAttribute("sessionUser", u);
 		System.out.println(u.getRole());
 		System.out.println(role);
 		if(u.getRole().equals(student)) {
@@ -74,6 +76,19 @@ public class MainController {
 			return "redirect:/";
 		}	
 	}
-	
+	@GetMapping("/lightmode")
+	public String lightMode(HttpSession session) {
+		String pagename = (String)session.getAttribute("currentpage");
+		User user = this.uService.findUserById((Long) session.getAttribute("userId"));
+		this.uService.lightMode(user);
+		return "redirect:/" + pagename;
+	}
+	@GetMapping("/darkmode")
+	public String darkMode(HttpSession session) {
+		String pagename = (String)session.getAttribute("currentpage");
+		User user = this.uService.findUserById((Long) session.getAttribute("userId"));
+		this.uService.darkMode(user);
+		return "redirect:/" + pagename;
+	}
 	
 }
