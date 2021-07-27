@@ -34,4 +34,5 @@ public class AdminService {
 	public void deleteCourse(Course course) {
 		this.adminRepository.delete(course);
 	}
+	
 }
