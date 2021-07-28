@@ -16,7 +16,7 @@
 <p>Credits: ${course.credits}</p>
 <p>Capacity: ${course.capacity}</p>
 <h3>Student: ${student.name}</h3>
-<form:form method="post" action="/teacher/addGrade/${course.id}/${student.id}" modelAttribute="grade">
+<form:form method="post" action="/teacher/addGrade/${course.id}/${student.id}" modelAttribute="value">
 	<form:label path="grade">Grade</form:label>
 	<form:errors path="grade"/>
 	<form:input path="grade" type="text"/>
