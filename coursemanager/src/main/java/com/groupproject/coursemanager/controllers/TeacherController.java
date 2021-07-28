@@ -67,6 +67,7 @@ public class TeacherController {
 		//create the course object to pull grades for roster purposes
 		//Will need to add Course Sevice
 		Course viewCourse = this.aServ.findCourse(id);
+		viewModel.addAttribute("course", viewCourse);
 		viewModel.addAttribute("roster", viewCourse.getGrades());
 		return  setPage("/teacher/courseView.jsp", session);
 	}
@@ -76,6 +77,8 @@ public class TeacherController {
 			Model viewModel) {
 		Long userId = (Long)session.getAttribute("userId");
 		User u = uServ.findUserById(userId);
+		Course viewCourse = this.aServ.findCourse(cId);
+		viewModel.addAttribute("course", viewCourse);
 		viewModel.addAttribute("student", this.uServ.findUserById(sId));
 		return  setPage("/teacher/viewStudent.jsp", session);
 	}
@@ -96,7 +99,7 @@ public class TeacherController {
 		Course viewCourse = this.aServ.findCourse(cId);
 		User student = this.uServ.findUserById(sId);
 		//adding the actual grade
-		this.gServ.addGrade(student, viewCourse);
+		this.gServ.addGrade(student, viewCourse, sGrade.toString());
 		return "redirect:/teacher/course/" + viewCourse;
 	}
 	

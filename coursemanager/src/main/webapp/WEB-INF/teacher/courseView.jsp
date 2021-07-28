@@ -9,13 +9,13 @@
 </head>
 <body>
 <h3>Course: ${course.name}</h3>
-<p>Teacher: ${course.teacher}</p>
+<p>Teacher: ${course.teacher.name}</p>
 <p>Credits: ${course.credits}</p>
 <p>Capacity: ${course.capacity}</p>
 <h3>Student Roster:</h3>
 <c:forEach items="${roster}" var="roster">
-	<a href="teacher/course/${course.id}/student/${course.grades.student.id}">Grade</a>
-	<p>${roster.student.firstName} ${roster.student.lastName}</p>
+	<a href="/teacher/course/${course.id}/student/${roster.student.id}">Grade</a>
+	<p>${roster.student.name}</p>
 </c:forEach>
 </body>
 </html>

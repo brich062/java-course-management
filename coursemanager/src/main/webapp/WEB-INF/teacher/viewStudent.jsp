@@ -10,14 +10,14 @@
 </head>
 <body>
 <h3>Course: ${course.name}</h3>
-<p>Teacher: ${course.teacher}</p>
+<p>Teacher: ${course.teacher.name}</p>
 <p>Credits: ${course.credits}</p>
 <p>Capacity: ${course.capacity}</p>
-<h3>Student: ${student.firstName} ${student.lastName}</h3>
+<h3>Student: ${student.name}</h3>
 <form:form method="post" action="/teacher/addGrade/${course.id}/${student.id}" modelAttribute="grade">
 	<form:label path="grade">Grade</form:label>
 	<form:errors path="grade"/>
-	<form:input value="${course.student.attends.grade}" path="grade"/>
+	<form:input path="grade"/>
 	<button>Save</button>
 </form:form>
 </body>

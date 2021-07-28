@@ -29,18 +29,20 @@ public class GradeService {
 	}
 	
 	//add grade
-	public void addGrade(User student, Course course) {
+	public void addGrade(User student, Course course, String grade) {
 		Grade newGrade = new Grade();
 		newGrade.setCourse(course);
 		newGrade.setStudent(student);
+		newGrade.setGrade(grade);
 		this.gRepo.save(newGrade);
 	}
 	
 	//edit grade
-	public void editGrade(User student, Course course) {
+	public void editGrade(User student, Course course, String grade) {
 		Grade edited = new Grade();
 		edited.setCourse(course);
 		edited.setStudent(student);
+		edited.setGrade(grade);
 		this.gRepo.save(edited);
 	}
 }
