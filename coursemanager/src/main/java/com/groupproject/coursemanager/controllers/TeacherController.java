@@ -45,7 +45,7 @@ public class TeacherController {
 			if (semesters.size() > 0) {
 				filterBySemester = semesters.get(0);
 			}
-		} else if (lastSelectedSemester.isBlank()) {
+		} else if (lastSelectedSemester.isEmpty()) {
 			if (semesters.size() > 0) {
 				filterBySemester = semesters.get(0);
 			}

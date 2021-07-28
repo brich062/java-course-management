@@ -53,6 +53,10 @@ public class User {
 
 	@OneToMany(mappedBy="teacher", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Course> teaches;
+	
+	@OneToMany(mappedBy="oneStudent", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Course> classes;
+	
 
     @OneToMany(mappedBy="student", fetch = FetchType.LAZY)
     private List<Grade> attends;
@@ -141,7 +145,13 @@ public class User {
 	public void setAttends(List<Grade> attends) {
 		this.attends = attends;
 	}
-
+	public List<Course> getClasses() {
+		return classes;
+	}
+	public void setClasses(List<Course> classes) {
+		this.classes = classes;
+	}
+	
 }
 
 
