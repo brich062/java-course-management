@@ -28,19 +28,24 @@ public class GradeService {
 		return this.gRepo.findById(id).orElse(null);
 	}
 	
+	
 	//add grade
 	public void addGrade(User student, Course course, Grade grade) {
+		grade = this.gRepo.findByStudentAndCourse(student, course);
+		System.out.println(grade);
 		if (student == null && course == null) {
 		Grade newGrade = new Grade();
 		newGrade.setCourse(course);
 		newGrade.setStudent(student);
 		this.gRepo.save(newGrade);
+		System.out.println("saved a new grade");
 		} else {
+			
 			this.gRepo.save(grade);
+			System.out.println("old grade given new value");
 		}
 	}
 	
-
 	
 	//edit grade
 	public Grade editGrade(Grade grade) {

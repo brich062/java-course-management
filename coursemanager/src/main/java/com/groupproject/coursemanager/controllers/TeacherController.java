@@ -104,7 +104,6 @@ public class TeacherController {
 		Course viewCourse = this.aServ.findCourse(cId);
 		User student = this.uServ.findUserById(sId);
 		//adding the actual grade
-		
 	    this.gServ.addGrade(student, viewCourse, sGrade);
 		return "redirect:/teacher/course/" + cId ;
 	}
