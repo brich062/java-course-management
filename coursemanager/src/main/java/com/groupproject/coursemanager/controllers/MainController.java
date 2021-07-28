@@ -1,5 +1,10 @@
 package com.groupproject.coursemanager.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -9,9 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.groupproject.coursemanager.models.User;
@@ -25,6 +32,8 @@ public class MainController {
 
 	@Autowired
 	private UserService uService;
+	
+	private static String UPLOADED_FOLDER = "src/main/resources/static/images/";
 	
 	@RequestMapping("/")
 	public String registerForm(@Valid @ModelAttribute("user") User user) {
@@ -76,6 +85,38 @@ public class MainController {
 			return "redirect:/";
 		}	
 	}
+	@GetMapping("/profile/{id}")
+	public String viewProfile(@ModelAttribute("user") User user, Model model, @PathVariable("id") Long id, HttpSession session) {
+		Long userId = (Long) session.getAttribute("userId"); 
+		session.setAttribute("currentpage", "profile/" + id);
+        if(userId == null) {
+      	   return "redirect:/";
+          }
+    	User u = uService.findUserById(userId);
+        model.addAttribute("sessionUser", u);
+		User oneUser = this.uService.findUserById(id);
+		model.addAttribute("user", oneUser);
+		return "profile.jsp";
+	}
+	@PostMapping("/upload/{id}")
+	public String uploadProfilePic(@RequestParam("picture") MultipartFile file, HttpSession session, RedirectAttributes redirectAttr, @PathVariable("id") Long id) {
+		if(file.isEmpty()) {
+			redirectAttr.addFlashAttribute("message", "Upload an image");
+			return "redirect:/home";
+		}
+		try {
+			User user = this.uService.findUserById((Long) session.getAttribute("userId"));
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+			Files.write(path, bytes);
+			String image_url = "/images/" + file.getOriginalFilename();
+			this.uService.uploadProfilePic(user, image_url);
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/profile/"+ id;
+	}
 	@GetMapping("/lightmode")
 	public String lightMode(HttpSession session) {
 		String pagename = (String)session.getAttribute("currentpage");
@@ -89,6 +130,5 @@ public class MainController {
 		User user = this.uService.findUserById((Long) session.getAttribute("userId"));
 		this.uService.darkMode(user);
 		return "redirect:/" + pagename;
-	}
-	
+	}	
 }

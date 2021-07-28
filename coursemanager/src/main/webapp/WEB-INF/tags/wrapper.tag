@@ -21,18 +21,17 @@
         <c:choose>
 								<c:when test = "${sessionUser.darkMode == true}">
 								
-								<a href="/home"><img src="/images/DishNotesIcon.gif" alt="icon" class="headerLogo"/></a>
+								<a href="/home"><img src="/images/academy_logo.png" alt="icon" class="headerLogo"/></a>
 								<link rel="stylesheet" href="/css/darkStyle.css">
 								</c:when>
 								<c:otherwise>
-    							<a href="/home"><img src="/images/LogoDark.gif" alt="icon" class="headerLogo"/></a>
+    							<a href="/home"><img src="/images/academy_logo.png" alt="icon" class="headerLogo"/></a>
     							<link rel="stylesheet" href="/css/style.css">
 								</c:otherwise>
 				</c:choose>		
           <li><h1>Welcome, <c:out value="${sessionUser.name}" /></h1>
           <li><a href="/home">Home</a></li>
           <li><a href="/profile/${sessionUser.id}">Profile</a></li>
-          <li><a href="/restaurant/new">Create a Restaurant</a></li>
           <li><a href="/logout">Logout</a></li>
 
           <li>    

@@ -76,7 +76,6 @@ body {
   color: black;
 }
 img{
-	border-radius:25px;
 	height:35px;
 }
 .profile{
@@ -88,7 +87,6 @@ img{
 }
 .icon{
 	height:100px;
-	border-radius:5px;
 }
 .LOGO{
 	height:200px;
