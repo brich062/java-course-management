@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.groupproject.coursemanager.models.Course;
 import com.groupproject.coursemanager.models.Grade;
@@ -101,9 +102,9 @@ public class TeacherController {
 			return "viewStudent.jsp";
 		}
 		Course viewCourse = this.aServ.findCourse(cId);
-		User student = this.uServ.findUserById(sId);
+		//User student = this.uServ.findUserById(sId);
 		//adding the actual grade
-		this.gServ.addGrade(student, viewCourse, sGrade.toString());
+		this.gServ.addGrade(sGrade);
 		return "redirect:/teacher/course/" + viewCourse;
 	}
 	

@@ -8,6 +8,8 @@
 <title>View Course</title>
 </head>
 <body>
+<a href="/logout">Log Out</a>
+<a href="/teacher/home">Home</a>
 <h3>Course: ${course.name}</h3>
 <p>Teacher: ${course.teacher.name}</p>
 <p>Credits: ${course.credits}</p>

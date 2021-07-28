@@ -9,6 +9,8 @@
 <title>Grade Student</title>
 </head>
 <body>
+<a href="/logout">Log Out</a>
+<a href="/teacher/home">Home</a>
 <h3>Course: ${course.name}</h3>
 <p>Teacher: ${course.teacher.name}</p>
 <p>Credits: ${course.credits}</p>
@@ -17,7 +19,7 @@
 <form:form method="post" action="/teacher/addGrade/${course.id}/${student.id}" modelAttribute="grade">
 	<form:label path="grade">Grade</form:label>
 	<form:errors path="grade"/>
-	<form:input path="grade"/>
+	<form:input path="grade" type="text"/>
 	<button>Save</button>
 </form:form>
 </body>
