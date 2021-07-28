@@ -41,9 +41,13 @@ public class TeacherController {
 		
 		String filterBySemester = "";
 		if (lastSelectedSemester == null) {
-			filterBySemester = semesters.get(0);
+			if (semesters.size() > 0) {
+				filterBySemester = semesters.get(0);
+			}
 		} else if (lastSelectedSemester.isBlank()) {
-			filterBySemester = semesters.get(0);
+			if (semesters.size() > 0) {
+				filterBySemester = semesters.get(0);
+			}
 		} else {
 			filterBySemester = lastSelectedSemester;
 			viewModel.addAttribute("lastSelectedSemester", lastSelectedSemester);
