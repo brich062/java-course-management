@@ -78,7 +78,7 @@ public class TeacherController {
 	}
 	
 	@GetMapping("teacher/course/{cId}/student/{sId}")
-	public String studentView(@ModelAttribute("grade") Grade sGrade,@PathVariable("cId") Long cId, @PathVariable("sId") Long sId, HttpSession session,
+	public String studentView(@ModelAttribute("value") Grade sGrade,@PathVariable("cId") Long cId, @PathVariable("sId") Long sId, HttpSession session,
 			Model viewModel) {
 		Long userId = (Long)session.getAttribute("userId");
 		User u = uServ.findUserById(userId);
@@ -92,7 +92,7 @@ public class TeacherController {
 	
 	//post mapping for posting a grade (based on modelAttribute?)
 	@PostMapping("/teacher/addGrade/{cId}/{sId}")
-	public String addGrade(@Valid @ModelAttribute("grade") Grade sGrade, BindingResult result, @PathVariable("cId") Long cId,
+	public String addGrade(@Valid @ModelAttribute("value") Grade sGrade, BindingResult result, @PathVariable("cId") Long cId,
 			@PathVariable("sId") Long sId, HttpSession session, Model viewModel) {
 		//checking errors and pulling the page back up
 		if(result.hasErrors()) {
@@ -102,10 +102,11 @@ public class TeacherController {
 			return "viewStudent.jsp";
 		}
 		Course viewCourse = this.aServ.findCourse(cId);
-		//User student = this.uServ.findUserById(sId);
+		User student = this.uServ.findUserById(sId);
 		//adding the actual grade
-		this.gServ.addGrade(sGrade);
-		return "redirect:/teacher/course/" + viewCourse;
+		
+	    this.gServ.addGrade(student, viewCourse, sGrade);
+		return "redirect:/teacher/course/" + cId ;
 	}
 	
 	//set page function for allowing a redirect if drop down menu options are selected
