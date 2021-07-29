@@ -45,10 +45,20 @@ public class GradeService {
 			System.out.println("old grade given new value");
 		}
 	}
+	public void registerClass(User student, Course course) {
+		Grade newGrade = new Grade();
+		newGrade.setCourse(course);
+		newGrade.setStudent(student);
+		this.gRepo.save(newGrade);
+	}
+	
 	
 	
 	//edit grade
 	public Grade editGrade(Grade grade) {
 		return this.gRepo.save(grade);
+	}
+	public void dropGrade(Long id) {
+		this.gRepo.deleteById(id); 
 	}
 }
