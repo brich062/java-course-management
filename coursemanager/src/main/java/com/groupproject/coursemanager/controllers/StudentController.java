@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.groupproject.coursemanager.models.Course;
+import com.groupproject.coursemanager.models.Grade;
 import com.groupproject.coursemanager.models.User;
 import com.groupproject.coursemanager.services.AdminService;
+import com.groupproject.coursemanager.services.GradeService;
 import com.groupproject.coursemanager.services.StudentService;
 import com.groupproject.coursemanager.services.UserService;
-import com.groupproject.coursemanager.validators.StudentValidator;
 
 @Controller()
 public class StudentController {
@@ -32,18 +31,20 @@ public class StudentController {
 	@Autowired
 	private UserService uServe;
 	@Autowired
-	private StudentValidator studVal;
+	private GradeService gServe;
+
 	
 	@GetMapping("/student/home")
 	public String home(Model viewModel, HttpSession session) {
-		Long userId = (Long) session.getAttribute("userId");
-		User studentt = uServe.findUserById(userId);
-		
-		
+		if(session.getAttribute("userId")==null) {
+			return "redirect:/";		
+		}else {
+			
 		String lastSelectedSemester = (String) session.getAttribute("semester");
-		// System.out.println("Last Selected");
-		// System.out.println(lastSelectedSemester);
 		
+		Long userId = (Long)session.getAttribute("userId");
+		User u = uServe.findUserById(userId);
+		viewModel.addAttribute("classes", u.getAttends());
 		List<String> semesters = adminServe.findAllSemesters();
 		viewModel.addAttribute("semesters", semesters);
 		
@@ -60,12 +61,12 @@ public class StudentController {
 			filterBySemester = lastSelectedSemester;
 			viewModel.addAttribute("lastSelectedSemester", lastSelectedSemester);
 		}
+		List <Course> coursese = this.adminServe.findCoursesBySemester(filterBySemester);
+		viewModel.addAttribute("courses", coursese);
 		
-//		List<Course> users = studServe.findByUserSemester(lastSelectedSemester);
-		List<Course> coursess = adminServe.findCoursesBySemester(lastSelectedSemester);
-		viewModel.addAttribute("students", coursess);
-
 		return setPage("/student/courseList.jsp", session);
+	
+		}
 	}
 
 	@GetMapping("/student/semester/{semester}")
@@ -74,15 +75,42 @@ public class StudentController {
 		session.setAttribute("semester", semester);
 		return "redirect:/student/home";
 	}
+	@GetMapping("/student/add/course")
+	public String newCourse(@ModelAttribute("grade")Grade grade, HttpSession session, Model model) {
+		String lastSelectedSemester = (String) session.getAttribute("semester");
+		List <Course> theseCor = this.adminServe.findCoursesBySemester(lastSelectedSemester);
+		
+		model.addAttribute("coursess", theseCor);
+		
+		return "/student/addNewCourse.jsp";
+	}
+	@PostMapping("/student/add/course")
+	public String addThisCourse(@Valid @ModelAttribute("grade")Grade grade, BindingResult result, HttpSession session) {
+		if(result.hasErrors()) {
+			return "/student/addNewCourse.jsp";
+		}else {
+			User thisUser = this.uServe.findUserById((Long)session.getAttribute("userId"));
+			Long newLong = (Long)session.getAttribute("userId");
+			this.gServe.registerClass(thisUser, grade.getCourse());
+			return ("redirect:/student/home");
+		
+		}
+	}
 	@GetMapping("/student/course/{id}")
 	public String studentHome(Model model, HttpSession session, @PathVariable("id")Long id) {
 		model.addAttribute("oneCourse", this.adminServe.findCourse(id));
-		return setPage("/student/studentCourse.jsp", session);
+		return "student/studentCourse.jsp";
 	}
 	@GetMapping("/student/drop/course/{id}")
 	public String dropCourse(Model model, HttpSession session, @PathVariable("id")Long id){
 		model.addAttribute("oneCourse", this.adminServe.findCourse(id));
-		return setPage("/student/courseDrop.jsp", session);
+		model.addAttribute("oneGrade", this.gServe.findSingleGrade(id));
+		return "/student/courseDrop.jsp";
+	}
+	@GetMapping("/student/drop/{id}")
+	public String deleteGrade(Model model, HttpSession session, @PathVariable("id")Long id) {
+		this.gServe.dropGrade(id);
+		return "redirect:/student/home";
 	}
 	private String setPage(String page, HttpSession session) {
 		session.setAttribute("currentpage", page);

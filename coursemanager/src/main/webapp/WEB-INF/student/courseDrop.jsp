@@ -9,11 +9,12 @@
 </head>
 <body>
 <div class="container">
-	<h1>Course: ${oneCourse.name}</h1> <p>${oneCourse.semester }</p>
-	<p>Teacher: ${oneCourse.teacher.name}</p>
-	<p>Credits: ${oneCourse.credits}</p>
-	<p>Capacity: ${oneCourse.capacity}</p>
-	<a href="/student/drop/${oneCourse.id}"><button class="btn btn-secondary">Drop Class</button></a>
+	<h1>Course: ${oneGrade.course.name}</h1> <p>${oneGrade.course.semester }</p>
+	<p>Teacher: ${oneGrade.course.teacher.name}</p>
+	<p>Credits: ${oneGrade.course.credits}</p>
+	<p>Capacity: ${oneGrade.course.capacity}</p>
+	
+	<a href="/student/drop/${oneGrade.id}"><button class="btn btn-secondary">Drop Class</button></a>
 </div>
 </body>
 </html>

@@ -8,3 +8,6 @@ function filterBySemesterStudent(event) {
 function addCourseStudent() {
 	window.location.href = "/student/add/course";
 }
+function deleteCourse(id) {
+	window.location.href = "/student/drop/course/" + id + "/";
+}

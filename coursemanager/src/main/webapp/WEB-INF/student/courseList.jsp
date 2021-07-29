@@ -36,18 +36,24 @@
 					<th>Semester</th>
 					<th>Credits</th>
 					<th>Teacher</th>
+					<th>Grade</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="studentss" items="${students}">
-					<tr>
-						<td><a href="/student/drop/course/${studentss.id}"><button>Drop</button></a></td>
-						<td><a href="/student/course/${studentss.id}"><c:out value="${studentss.name}"/></a></td>
-						<td><c:out value="${studentss.code}"/></td>
-						<td><c:out value="${studentss.semester}"/></td>
-						<td><c:out value="${studentss.credits}"/></td>
-						<td><c:out value="${studentss.teacher.name}"/></td>
-					</tr>
+				<c:forEach var="cors" items="${classes}">
+					<c:choose>
+			  			<c:when test="${cors.course.semester.equals(lastSelectedSemester)}">
+							<tr>
+								<td><a href="/student/drop/course/${cors.id}"><button>Drop</button></a></td>
+								<td><a href="/student/course/${cors.course.id}"><c:out value="${cors.course.name}"/></a></td>
+		 						<td><c:out value="${cors.course.code}"/></td>
+								<td><c:out value="${cors.course.semester}"/></td>
+								<td><c:out value="${cors.course.credits}"/></td>
+								<td><c:out value="${cors.course.teacher.name}"/></td>
+								<td><c:out value="${cors.grade}"/></td>
+							</tr>
+						</c:when>
+					</c:choose>
 				</c:forEach>
 			</tbody>
 		</table>
