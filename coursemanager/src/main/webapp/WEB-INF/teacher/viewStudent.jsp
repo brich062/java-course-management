@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
+<%@ taglib prefix = "t" tagdir = "/WEB-INF/tags" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +10,7 @@
 <title>Grade Student</title>
 </head>
 <body>
+<t:wrapper>
 <a href="/logout">Log Out</a>
 <a href="/teacher/home">Home</a>
 <h3>Course: ${course.name}</h3>
@@ -22,5 +24,6 @@
 	<form:input path="grade" type="text"/>
 	<button>Save</button>
 </form:form>
+</t:wrapper>
 </body>
 </html>

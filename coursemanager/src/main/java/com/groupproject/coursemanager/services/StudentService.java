@@ -26,5 +26,7 @@ public class StudentService {
 	public List<Grade> findStudentGrade(User user){
 		return this.gRepo.findByStudent(user);
 	}
-	
+	public List<Course> findAll(){
+		return this.studRepo.findAll();
+	}
 }

@@ -29,7 +29,7 @@ public class TeacherController {
 	@Autowired GradeService gServ;
 	
 	@GetMapping("/teacher/home")
-	public String teacherHome(HttpSession session, Model viewModel) {
+	public String teacherHome(HttpSession session, Model viewModel, Model model) {
 		//getting the user credentials
 		Long userId = (Long) session.getAttribute("userId");
 		//create user object for data view on the front end
@@ -45,7 +45,7 @@ public class TeacherController {
 			if (semesters.size() > 0) {
 				filterBySemester = semesters.get(0);
 			}
-		} else if (lastSelectedSemester.isEmpty()) {
+		} else if (lastSelectedSemester == "") {
 			if (semesters.size() > 0) {
 				filterBySemester = semesters.get(0);
 			}
@@ -55,7 +55,9 @@ public class TeacherController {
 		}
 		List<Course> courses = aServ.findCoursesBySemester(filterBySemester);
 		viewModel.addAttribute("courses", courses);
-		return setPage("/teacher/teacherHome.jsp", session);
+		session.setAttribute("currentpage", "teacher/home");
+		model.addAttribute("sessionUser", u);
+		return "/teacher/teacherHome.jsp";
 	}
 	
 	@GetMapping("/teacher/semester/{semester}")
@@ -66,7 +68,7 @@ public class TeacherController {
 	}
 	
 	@GetMapping("teacher/course/{id}")
-	public String courseView(@PathVariable("id") Long id, HttpSession session, Model viewModel) {
+	public String courseView(@PathVariable("id") Long id, HttpSession session, Model viewModel, Model model) {
 		Long userId = (Long)session.getAttribute("userId");
 		User u = uServ.findUserById(userId);
 		//create the course object to pull grades for roster purposes
@@ -74,18 +76,22 @@ public class TeacherController {
 		Course viewCourse = this.aServ.findCourse(id);
 		viewModel.addAttribute("course", viewCourse);
 		viewModel.addAttribute("roster", viewCourse.getGrades());
-		return  setPage("/teacher/courseView.jsp", session);
+		session.setAttribute("currentpage", "teacher/course/"+ id);
+		model.addAttribute("sessionUser", u);
+		return "/teacher/courseView.jsp";
 	}
 	
 	@GetMapping("teacher/course/{cId}/student/{sId}")
 	public String studentView(@ModelAttribute("value") Grade sGrade,@PathVariable("cId") Long cId, @PathVariable("sId") Long sId, HttpSession session,
-			Model viewModel) {
+			Model viewModel, Model model) {
 		Long userId = (Long)session.getAttribute("userId");
 		User u = uServ.findUserById(userId);
 		Course viewCourse = this.aServ.findCourse(cId);
 		viewModel.addAttribute("course", viewCourse);
 		viewModel.addAttribute("student", this.uServ.findUserById(sId));
-		return  setPage("/teacher/viewStudent.jsp", session);
+		session.setAttribute("currentpage", "teacher/course/" + cId +"/student/" + sId);
+		model.addAttribute("sessionUser", u);
+		return "/teacher/viewStudent.jsp";
 	}
 	
 	
@@ -104,6 +110,7 @@ public class TeacherController {
 		Course viewCourse = this.aServ.findCourse(cId);
 		User student = this.uServ.findUserById(sId);
 		//adding the actual grade
+		
 	    this.gServ.addGrade(student, viewCourse, sGrade);
 		return "redirect:/teacher/course/" + cId ;
 	}

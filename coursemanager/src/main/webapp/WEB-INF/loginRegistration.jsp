@@ -14,7 +14,7 @@
     <title>Registration Page</title>
 </head>
 <body>
-<h1>LOGO coming soon</h1>
+<img src="/images/academy_online.png" alt="icon" class="LOGO"/><br>
 
 <div class="l-and-r-side">
 	<h1 class="card-title mt-3 text-center loginH1">Login</h1>

@@ -73,6 +73,11 @@ public class UserService {
 	public void getRole(User user) {
 		user.getRole();
 	}
+	//profile pic
+	public void uploadProfilePic(User user, String image_url) {
+		user.setProfilePic(image_url);
+		this.userRepository.save(user);
+	}
     // find user by role
     public List<User> findByRole(String role) {
         return userRepository.findByRole(role);
