@@ -130,5 +130,10 @@ public class MainController {
 		User user = this.uService.findUserById((Long) session.getAttribute("userId"));
 		this.uService.darkMode(user);
 		return "redirect:/" + pagename;
-	}	
+	}
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+       session.invalidate();
+       return "redirect:/";
+    }
 }
