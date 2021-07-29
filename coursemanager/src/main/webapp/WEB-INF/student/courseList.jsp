@@ -54,7 +54,7 @@
 		<div class="listToolbar">
 		<div>
 			<input onclick="addCourseStudent();" value="Register Course" class="btn btn-primary my-button"/>
-			Semester:
+			<h4>Semester:</h4>
 			<select onchange="filterBySemesterStudent(event);">
 				<c:forEach var="semester" items="${semesters}">
 					<c:choose>
