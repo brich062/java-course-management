@@ -11,5 +11,4 @@ import com.groupproject.coursemanager.models.User;
 @Repository
 public interface GradeRepository extends CrudRepository<Grade, Long> {
 	List<Grade> findAll();
-	List<Grade> findByStudent(User user);
 }
