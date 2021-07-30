@@ -68,29 +68,34 @@ public class TeacherController {
 	}
 	
 	@GetMapping("teacher/course/{id}")
-	public String courseView(@PathVariable("id") Long id, HttpSession session, Model viewModel, Model model) {
+	public String courseView(@PathVariable("id") Long id, HttpSession session, Model viewModel) {
 		Long userId = (Long)session.getAttribute("userId");
 		User u = uServ.findUserById(userId);
+		System.out.println("u teacher controller" + u);
+		System.out.println("u teacher controller id" + userId);
 		//create the course object to pull grades for roster purposes
 		//Will need to add Course Sevice
 		Course viewCourse = this.aServ.findCourse(id);
 		viewModel.addAttribute("course", viewCourse);
 		viewModel.addAttribute("roster", viewCourse.getGrades());
 		session.setAttribute("currentpage", "teacher/course/"+ id);
-		model.addAttribute("sessionUser", u);
+		viewModel.addAttribute("sessionUser", u);
 		return "/teacher/courseView.jsp";
 	}
 	
 	@GetMapping("teacher/course/{cId}/student/{sId}")
 	public String studentView(@ModelAttribute("value") Grade sGrade,@PathVariable("cId") Long cId, @PathVariable("sId") Long sId, HttpSession session,
-			Model viewModel, Model model) {
+			Model viewModel) {
 		Long userId = (Long)session.getAttribute("userId");
 		User u = uServ.findUserById(userId);
 		Course viewCourse = this.aServ.findCourse(cId);
+		User student = uServ.findUserById(sId);
 		viewModel.addAttribute("course", viewCourse);
 		viewModel.addAttribute("student", this.uServ.findUserById(sId));
 		session.setAttribute("currentpage", "teacher/course/" + cId +"/student/" + sId);
-		model.addAttribute("sessionUser", u);
+		viewModel.addAttribute("sessionUser", u);
+		System.out.println("at get mapping teacher controller" + sId);
+		System.out.println("at get mapping teacher controller" + cId);
 		return "/teacher/viewStudent.jsp";
 	}
 	
@@ -99,19 +104,22 @@ public class TeacherController {
 	//post mapping for posting a grade (based on modelAttribute?)
 	@PostMapping("/teacher/addGrade/{cId}/{sId}")
 	public String addGrade(@Valid @ModelAttribute("value") Grade sGrade, BindingResult result, @PathVariable("cId") Long cId,
-			@PathVariable("sId") Long sId, HttpSession session, Model viewModel) {
+			@PathVariable("sId") Long sId, @RequestParam("grade") String eGrade, HttpSession session, Model viewModel) {
 		//checking errors and pulling the page back up
 		if(result.hasErrors()) {
 			Long userId = (Long)session.getAttribute("userId");
-			User u =  uServ.findUserById(userId);
+			User u = uServ.findUserById(userId);
+			Course viewCourse = this.aServ.findCourse(cId);
+			viewModel.addAttribute("course", viewCourse);
 			viewModel.addAttribute("student", this.uServ.findUserById(sId));
-			return "viewStudent.jsp";
+			session.setAttribute("currentpage", "teacher/course/" + cId +"/student/" + sId);
+			viewModel.addAttribute("sessionUser", u);
+			return "/teacher/viewStudent.jsp";
 		}
 		Course viewCourse = this.aServ.findCourse(cId);
 		User student = this.uServ.findUserById(sId);
-		//adding the actual grade
-		
-	    this.gServ.addGrade(student, viewCourse, sGrade);
+		//add the grade into the Grade Model via request parameter
+	    this.gServ.addGrade(student, viewCourse, eGrade);
 		return "redirect:/teacher/course/" + cId ;
 	}
 	

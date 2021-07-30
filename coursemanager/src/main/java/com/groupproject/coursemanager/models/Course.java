@@ -3,6 +3,7 @@ package com.groupproject.coursemanager.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -57,7 +58,7 @@ public class Course {
     private User teacher;
     
 	
-    @OneToMany(mappedBy="course", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="course", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Grade> grades;
 
     @PrePersist

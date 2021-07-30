@@ -56,6 +56,7 @@ public class MainController {
 	   if(isAuthenticated) {
 		   User u = uService.findByEmail(email);
 		   session.setAttribute("userId", u.getId());
+		   System.out.println("main controller user id" + "" + u.getId());
 		   return "redirect:/home";
 	   } else {
     	   redirectAttr.addFlashAttribute("error", "Email or Password incorrect.");

@@ -32,7 +32,8 @@ public class UserService {
     // find user by id
     public User findUserById(Long id) {
     	Optional<User> u = userRepository.findById(id);
-    	
+    	System.out.println(id + "" + "this is the user ID");
+    	System.out.println(u);
     	if(u.isPresent()) {
             return u.get();
     	} else {

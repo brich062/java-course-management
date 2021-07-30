@@ -22,7 +22,7 @@ public class Grade {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-    @Size(min=1, max=1, message="Grade must be specified by a single letter")
+    @Size(max=1, message="Grade must be specified by a single letter")
     private String grade;
 
     @ManyToOne(fetch = FetchType.LAZY)

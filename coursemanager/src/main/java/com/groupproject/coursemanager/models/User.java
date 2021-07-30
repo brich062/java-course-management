@@ -55,7 +55,7 @@ public class User {
 	private List<Course> teaches;
 
 
-    @OneToMany(mappedBy="student", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="student", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Grade> attends;
 	
 	@PrePersist
